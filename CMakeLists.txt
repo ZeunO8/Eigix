@@ -7,6 +7,8 @@ project(eigix VERSION ${EX_VERSION_MAJOR}.${EX_VERSION_MINOR}.${EX_VERSION_PATCH
 
 set(CMAKE_CXX_STANDARD 20)
 
+add_executable(${PROJECT_NAME}_tests tests/test_main.cpp tests/test_2d.cpp tests/test_3d.cpp)
+
 if("${CMAKE_SYSTEM_NAME}" STREQUAL "Linux")
     set(LINUX ON)
     if(ZG_INSTALL)
@@ -110,7 +112,6 @@ function(crossplatform_cpack_helper
     include(CPack)
 endfunction()
 
-add_executable(${PROJECT_NAME}_tests tests/test_main.cpp tests/test_2d.cpp tests/test_3d.cpp)
 install(DIRECTORY include DESTINATION include
         FILE_PERMISSIONS OWNER_READ GROUP_READ WORLD_READ
         DIRECTORY_PERMISSIONS OWNER_EXECUTE OWNER_READ GROUP_EXECUTE GROUP_READ WORLD_EXECUTE WORLD_READ)

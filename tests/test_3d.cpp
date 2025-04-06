@@ -1,10 +1,5 @@
-#include "tests.hpp"
-auto test_3d = ([]() -> bool
+#include "test_3d.hpp"
+bool test_3d()
 {
-    tests.push_back({"3D", []()->bool
-    {
-        return false;
-    }});
-    return true;
+    return false;
 }
-)();
