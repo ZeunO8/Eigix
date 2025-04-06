@@ -7,6 +7,8 @@ project(eigix VERSION ${EX_VERSION_MAJOR}.${EX_VERSION_MINOR}.${EX_VERSION_PATCH
 
 set(CMAKE_CXX_STANDARD 20)
 
+include_directories(include)
+
 add_executable(${PROJECT_NAME}_tests tests/test_main.cpp tests/test_2d.cpp tests/test_3d.cpp)
 
 if("${CMAKE_SYSTEM_NAME}" STREQUAL "Linux")

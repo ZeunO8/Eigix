@@ -111,6 +111,23 @@ struct Tensor3D
         return result;
     }
 
+    Tensor3D<T, Depth, Rows, Cols> operator*(const Tensor3D<T, Depth, Rows, Cols> &other) const
+    {
+        Tensor3D<T, Depth, Rows, Cols> result; // Initialized to zeros, will be overwritten
+        for (size_t d = 0; d < Depth; ++d)
+        {
+            for (size_t r = 0; r < Rows; ++r)
+            {
+                for (size_t c = 0; c < Cols; ++c)
+                {
+                    // Multiply corresponding elements
+                    result(d, r, c) = (*this)(d, r, c) * other(d, r, c);
+                }
+            }
+        }
+        return result;
+    }
+
     // --- Scalar Division ---
     // Divides every element of the tensor by a scalar value.
     // Throws std::runtime_error on division by zero.
@@ -140,6 +157,23 @@ struct Tensor3D
                 for (size_t c = 0; c < Cols; ++c)
                 {
                     result(d, r, c) = (*this)(d, r, c) / scalar;
+                }
+            }
+        }
+        return result;
+    }
+
+    Tensor3D<T, Depth, Rows, Cols> operator/(const Tensor3D<T, Depth, Rows, Cols> &other) const
+    {
+        Tensor3D<T, Depth, Rows, Cols> result; // Initialized to zeros, will be overwritten
+        for (size_t d = 0; d < Depth; ++d)
+        {
+            for (size_t r = 0; r < Rows; ++r)
+            {
+                for (size_t c = 0; c < Cols; ++c)
+                {
+                    // Divide corresponding elements
+                    result(d, r, c) = (*this)(d, r, c) / other(d, r, c);
                 }
             }
         }

@@ -8,14 +8,14 @@
 #include <cmath>       // For std::fabs
 
 template <typename T, size_t Rows, size_t Cols>
-struct Matrix
+struct Matrix2D
 {
     // --- Data Member ---
     std::array<std::array<T, Cols>, Rows> data;
 
     // --- Constructors ---
     // Default constructor: Initializes all elements to T{} (e.g., 0 for numeric types)
-    Matrix()
+    Matrix2D()
     {
         for (size_t r = 0; r < Rows; ++r)
         {
@@ -31,7 +31,7 @@ struct Matrix
     {
         if (row >= Rows || col >= Cols)
         {
-            throw std::out_of_range("Matrix access out of bounds");
+            throw std::out_of_range("Matrix2D access out of bounds");
         }
         return data[row][col];
     }
@@ -40,7 +40,7 @@ struct Matrix
     {
         if (row >= Rows || col >= Cols)
         {
-            throw std::out_of_range("Matrix access out of bounds");
+            throw std::out_of_range("Matrix2D access out of bounds");
         }
         return data[row][col];
     }
@@ -49,15 +49,15 @@ struct Matrix
     constexpr size_t numRows() const { return Rows; }
     constexpr size_t numCols() const { return Cols; }
 
-    // --- Matrix Multiplication ---
+    // --- Matrix2D Multiplication ---
     template <size_t OtherRows, size_t OtherCols>
-    Matrix<T, Rows, OtherCols> operator*(const Matrix<T, OtherRows, OtherCols> &other) const
+    Matrix2D<T, Rows, OtherCols> operator*(const Matrix2D<T, OtherRows, OtherCols> &other) const
     {
         static_assert(Cols == OtherRows,
-                      "Matrix multiplication dimension mismatch: "
+                      "Matrix2D multiplication dimension mismatch: "
                       "Left matrix columns must equal Right matrix rows.");
 
-        Matrix<T, Rows, OtherCols> result; // Initialized to zeros by default constructor
+        Matrix2D<T, Rows, OtherCols> result; // Initialized to zeros by default constructor
         for (size_t i = 0; i < Rows; ++i)
         {
             for (size_t j = 0; j < OtherCols; ++j)
@@ -73,11 +73,11 @@ struct Matrix
         return result;
     }
 
-    // --- Matrix Addition ---
+    // --- Matrix2D Addition ---
     // Adds two matrices of the exact same dimensions element-wise.
-    Matrix<T, Rows, Cols> operator+(const Matrix<T, Rows, Cols> &other) const
+    Matrix2D<T, Rows, Cols> operator+(const Matrix2D<T, Rows, Cols> &other) const
     {
-        Matrix<T, Rows, Cols> result;
+        Matrix2D<T, Rows, Cols> result;
         for (size_t r = 0; r < Rows; ++r)
         {
             for (size_t c = 0; c < Cols; ++c)
@@ -88,11 +88,11 @@ struct Matrix
         return result;
     }
 
-    // --- Matrix Subtraction ---
+    // --- Matrix2D Subtraction ---
     // Subtracts another matrix (of the same dimensions) from this matrix element-wise.
-    Matrix<T, Rows, Cols> operator-(const Matrix<T, Rows, Cols> &other) const
+    Matrix2D<T, Rows, Cols> operator-(const Matrix2D<T, Rows, Cols> &other) const
     {
-        Matrix<T, Rows, Cols> result;
+        Matrix2D<T, Rows, Cols> result;
         for (size_t r = 0; r < Rows; ++r)
         {
             for (size_t c = 0; c < Cols; ++c)
@@ -106,7 +106,7 @@ struct Matrix
     // --- Scalar Division ---
     // Divides every element of the matrix by a scalar value.
     // Throws std::runtime_error on division by zero.
-    Matrix<T, Rows, Cols> operator/(const T &scalar) const
+    Matrix2D<T, Rows, Cols> operator/(const T &scalar) const
     {
         // Runtime check for division by zero
         // Use epsilon for floating point comparisons
@@ -114,18 +114,18 @@ struct Matrix
         {
             if (std::fabs(scalar) < std::numeric_limits<T>::epsilon())
             {
-                throw std::runtime_error("Matrix division by zero or near-zero scalar");
+                throw std::runtime_error("Matrix2D division by zero or near-zero scalar");
             }
         }
         else
         { // For integer types
             if (scalar == T{})
             {
-                throw std::runtime_error("Matrix division by zero scalar");
+                throw std::runtime_error("Matrix2D division by zero scalar");
             }
         }
 
-        Matrix<T, Rows, Cols> result;
+        Matrix2D<T, Rows, Cols> result;
         for (size_t r = 0; r < Rows; ++r)
         {
             for (size_t c = 0; c < Cols; ++c)
@@ -155,9 +155,9 @@ struct Matrix
 
 // --- Overload operator<< for easy printing (Optional) ---
 template <typename T, size_t Rows, size_t Cols>
-std::ostream &operator<<(std::ostream &os, const Matrix<T, Rows, Cols> &matrix)
+std::ostream &operator<<(std::ostream &os, const Matrix2D<T, Rows, Cols> &matrix)
 {
-    os << "Matrix (" << Rows << "x" << Cols << "):\n";
+    os << "Matrix2D (" << Rows << "x" << Cols << "):\n";
     // Determine a reasonable width for alignment, check for very small/large numbers later if needed
     int width = 8;
     os << std::fixed << std::setprecision(2); // Example formatting for floats
